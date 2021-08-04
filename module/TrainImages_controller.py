@@ -5,7 +5,6 @@ from module.GetDataInCSV import GetDataInCSV
 from tkinter import messagebox as ms
 import cv2
 import numpy as np
-import gc
 
 class TrainImages_controller:
     def __init__(self,windows,Frame,Frame1) -> None:
