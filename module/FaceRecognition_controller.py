@@ -133,24 +133,27 @@ class FaceRecognition_controller:
         self.statusC = True
 
         StaticMD.check_haarcascadefile
-        # StaticMD.checkFolder('src/Student/')
         StaticMD.checkFolder('src/Attendance/')
 
         exists = os.path.isfile("src/dataset\Trainner.yml")
         if exists :
-            print("[Debug] พบไฟล์ Trainner.yml")
-            self.recognizer.read("src/dataset\Trainner.yml")
+            count =  len(self.Mongo_student.view())
+            print('count',count)
+            if count > 0 :
+                print("[Debug] พบไฟล์ Trainner.yml")
+                self.recognizer.read("src/dataset\Trainner.yml")
 
-            self.webcam = cv2.VideoCapture(0,cv2.CAP_DSHOW)
-            self.font = cv2.FONT_HERSHEY_SIMPLEX
+                self.webcam = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+                self.font = cv2.FONT_HERSHEY_SIMPLEX
 
-            threading.Thread(target=self.disableBtn).start()
-            self.Run()
+                threading.Thread(target=self.disableBtn).start()
+                self.Run()
+            else:
+                ms.showwarning('คำเตือน','กรุณาบันทึกข้อมูลก่อนเริ่มการทำงาน')
 
         else:
             print("[Debug] ไม่พบไฟล์ Trainner.yml")
             ms.showerror('คำเตือน','กรุณาบันทึกข้อมูลก่อนเริ่มการทำงาน')
-            return
         
     def Stop(self):
         print("[Debug] Stop")
@@ -180,7 +183,6 @@ class FaceRecognition_controller:
             self.Frame.Frame1.video.image = imgtk 
 
     def Attendance(self,sound):
-        print('Attendance')
         data = self.Mongo_attendant.find_all(self.date)
         self.Frame.Frame2.clearAttendance()
         if len(data) != 0:

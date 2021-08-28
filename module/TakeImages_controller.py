@@ -108,7 +108,4 @@ class TakeImages_controller:
         elif not self.ID.isnumeric():
             status = False
             text = 'รหัสนักศึกษาต้องเป็นตัวเลขเท่านั้น'
-        elif not self.name.isalpha() :
-            status = False
-            text = 'ชื่อต้องเป็นตัวอักษรเท่านั้น'
         return {'status':status,'text':text}
