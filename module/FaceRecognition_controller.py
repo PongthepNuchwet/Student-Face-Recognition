@@ -1,22 +1,29 @@
-import tkinter as tk
 from PIL import Image, ImageTk
 from module.Staticmethod_controller import StaticMD 
 from module.FaceRecognition_model import FaceRecognition_model
 from module.LineNotify import LineNotify
+from module.mongo_attendant import Mongo_attendant
+from module.mongo_student import Mongo_student
 from tkinter import messagebox as ms
 import cv2
 import threading
 import os
+from os import path
 import pandas as pd
 import datetime
 from playsound import playsound
+
 
 class FaceRecognition_controller:
     def __init__(self,windows,Frame):
         self.Frame = Frame
         self.windows = windows
 
+        self.n = 0
+
         self.LineNotify = LineNotify()
+        self.Mongo_attendant = Mongo_attendant()
+        self.Mongo_student = Mongo_student()
 
         self.recognizer =cv2.face.LBPHFaceRecognizer_create()
         harcascadePath = "src/haarcascade_frontalface_default.xml"
@@ -31,9 +38,9 @@ class FaceRecognition_controller:
         self.After = None
 
         now = datetime.datetime.now()
-        date = now.strftime("%d-%m-%Y")
+        self.date = now.strftime("%d-%m-%Y")
 
-        threading.Thread(target=self.Attendance,args=(date,False)).start()
+        threading.Thread(target=self.Attendance,args=('0')).start()
         
         
     def disableBtn(self):
@@ -50,43 +57,101 @@ class FaceRecognition_controller:
         self.windows.Menubar.btn4["state"] = "normal"
         self.windows.Menubar.btn5["state"] = "normal"
 
+    
+
+    def save_attendance(self,id,name,classs,date,time,time2,image):
+        print("save_attendance")
+        if self.n == 0 :
+            self.n += 1
+            print('save_attendance')
+            StaticMD.checkFolder('src/Attendance/image/')
+            print(id,name,classs,date,time,time2)
+            status = self.Mongo_attendant.getLen(id)
+            print('status',status)
+            if status < 1 :
+                url = f"src\Attendance\image\T{time2}.jpg"
+                cv2.cvtColor(image, cv2.COLOR_BGR2RGBA)
+                cv2.imwrite(url,image)
+
+                data = {
+                        'studentId':str(id),
+                        'name':str(name),
+                        'classs':str(classs),
+                        'date': str(date),
+                        'time': str(time),
+                        'image':str(url)
+                    }
+                self.Mongo_attendant.add(data)
+                self.Attendance('1')
+            
+
+                
+    def find_student(self,id):
+        data = self.Mongo_student.find_all(id)
+        return data
+
+
+    def Run(self):
+        print("[Debug] Run")
+        ret, frame = self.webcam.read()
+        GRAYImage = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        RGBimage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
+        faces = self.faceCascade.detectMultiScale(GRAYImage, 1.2, 5)
+        name = None
+        x,y,w,h = None,None,None,None
+        for (x, y, w, h) in faces:
+            print("[Debug] พบใบหน้า")
+            studenID, conf = self.recognizer.predict(GRAYImage[y:y + h, x:x + w])
+            print(studenID, conf)
+            if (conf < 50): 
+                print("[Debug] ใบหน้าเหมือน")
+
+                now = datetime.datetime.now()
+                time = now.strftime("%H:%M:%S")
+                time2 = now.strftime("%H-%M-%S-%f")
+                date = now.strftime("%d-%m-%Y")
+
+                data = self.find_student(str(studenID))
+                print(data,studenID)
+                id = data[0]['id']
+                name = data[0]['name']
+                clas = data[0]['classs']
+
+                threading.Thread(target=self.save_attendance,args=(id,name,clas,date,time,time2,frame)).start()
+
+            else:
+                Id = 'Unknown'
+                name = 'Unknown'
+        updatedisplay = threading.Thread(target=self.UpdateDisplay,args=(RGBimage,name,x,y,w,h))
+        updatedisplay.start()
+
+        self.After = self.windows.after(30,self.Run)
+
 
     def Start(self):
-
-
         print("[Debug] Start")
         self.statusC = True
 
         StaticMD.check_haarcascadefile
-        StaticMD.checkFolder('src/Student/')
+        # StaticMD.checkFolder('src/Student/')
         StaticMD.checkFolder('src/Attendance/')
 
         exists = os.path.isfile("src/dataset\Trainner.yml")
         if exists :
             print("[Debug] พบไฟล์ Trainner.yml")
             self.recognizer.read("src/dataset\Trainner.yml")
+
+            self.webcam = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+            self.font = cv2.FONT_HERSHEY_SIMPLEX
+
+            threading.Thread(target=self.disableBtn).start()
+            self.Run()
+
         else:
             print("[Debug] ไม่พบไฟล์ Trainner.yml")
             ms.showerror('คำเตือน','กรุณาบันทึกข้อมูลก่อนเริ่มการทำงาน')
             return
         
-        self.webcam = cv2.VideoCapture(0,cv2.CAP_DSHOW)
-        self.font = cv2.FONT_HERSHEY_SIMPLEX
-
-        exists2 = os.path.isfile("src/Student/data.csv")
-        if exists2:
-            print("[Debug] พบไฟล์ data.csv")
-            self.df = pd.read_csv("src/Student/data.csv")
-        else:
-            print("[Debug] ไม่พบไฟล์ data.csv")
-            ms.showerror('คำเตือน','กรุณาบันทึกข้อมูลก่อนเริ่มการทำงาน')
-            self.webcam.release()
-            cv2.destroyAllWindows()
-
-        threading.Thread(target=self.disableBtn).start()
-        self.Run()
-        
-
     def Stop(self):
         print("[Debug] Stop")
         if self.webcam != None :
@@ -114,73 +179,22 @@ class FaceRecognition_controller:
             self.Frame.Frame1.video.configure(image=imgtk)
             self.Frame.Frame1.video.image = imgtk 
 
-
-    def saveData(self,frame,id,name,clas,date,time,time2,x,y,w,h):
-
-        StaticMD.checkFolder('src/Attendance/image/')
-        status = FaceRecognition_model.ChackData(str(id),date)
-        
-        if status != True:
-            url = f"src\Attendance\image\T{time2}.jpg"
-            cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
-            cv2.imwrite(url,frame)
-            attendance = [id,'',url,'',name,'',clas,'',date,'',time]
-            FaceRecognition_model.AddCsvAttendanceData(date,attendance)
-            threading.Thread(target=self.LineNotify.Post(url,f'{name} มาถึงโรงเรียนแล้ว'))
-            self.Attendance(date,True)
-        
-
-
-    def Attendance(self,date,sound):
-        data = FaceRecognition_model.GetCsvAttendanceData(date)
-        if data != '':
-            self.Frame.Frame2.clearAttendance()
+    def Attendance(self,sound):
+        print('Attendance')
+        data = self.Mongo_attendant.find_all(self.date)
+        self.Frame.Frame2.clearAttendance()
+        if len(data) != 0:
+            print(data)
             for i in data :
-                self.Frame.Frame2.creatwidget(i['image'],i['Name'],i['Id'],i['Class'],i['Date'],i['Time'])
-                if sound :
+                print(i)
+                self.Frame.Frame2.creatwidget(i['image'],i['name'],i['studentId'],i['classs'],i['date'],i['time'])
+                if sound == '1' :
                     playsound(self.sound)
+        else:
+            self.Frame.Frame2.notFound()
 
 
-    def Run(self):
-        print("[Debug] Run")
-        ret, frame = self.webcam.read()
-        GRAYImage = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        RGBimage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
-        faces = self.faceCascade.detectMultiScale(GRAYImage, 1.2, 5)
-        name = None
-        x,y,w,h = None,None,None,None
-        for (x, y, w, h) in faces:
-            print("[Debug] พบใบหน้า")
-            serial, conf = self.recognizer.predict(GRAYImage[y:y + h, x:x + w])
-            if (conf < 50): 
-                print("[Debug] ใบหน้าเหมือน")
 
-                now = datetime.datetime.now()
-                time = now.strftime("%H:%M:%S")
-                time2 = now.strftime("%H-%M-%S-%f")
-                date = now.strftime("%d-%m-%Y")
 
-                id = self.df.loc[self.df['SERIAL NO.'] == serial]['ID'].values
-                id = str(id)
-                id = id[1:-1]
 
-                name = self.df.loc[self.df['SERIAL NO.'] == serial]['NAME'].values
-                name = str(name)
-                name = name[1:-1]
-
-                clas = self.df.loc[self.df['SERIAL NO.'] == serial]['CLASS'].values
-                clas = str(clas)
-                clas = clas[1:-1]
-
-                # cv2.imwrite(f'src/{name}.{time}.jpg',frame[y:y + h, x:x + w])
-
-                CreatFrame = threading.Thread(target=self.saveData,args=(frame,id,name,clas,date,time,time2,x,y,w,h) )
-                CreatFrame.start()
-            else:
-                Id = 'Unknown'
-                name = 'Unknown'
-        updatedisplay = threading.Thread(target=self.UpdateDisplay,args=(RGBimage,name,x,y,w,h))
-        updatedisplay.start()
-
-        self.After = self.windows.after(30,self.Run)
 

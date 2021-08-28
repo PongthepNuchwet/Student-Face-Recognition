@@ -19,7 +19,7 @@ class startFrame(tk.Frame):
         self.logo.image =image
         self.logo.grid(column=0,columnspan=2,row=0,pady=20)
 
-        iconDeep = Image.open("./src/image/detection.png")
+        iconDeep = Image.open("./src/image/register.png")
         iconDeep = iconDeep.resize((width,height), Image.ANTIALIAS)
         iconDeep =  ImageTk.PhotoImage(iconDeep)
 
@@ -28,7 +28,7 @@ class startFrame(tk.Frame):
         recognition =  ImageTk.PhotoImage(recognition)
 
 
-        self.btnDeep = tk.Button(self,command= lambda : windows.Goto('FaceDetection_view'), text=' Face detection',relief='flat',compound=tk.LEFT,font=('mitr','20'),image = iconDeep)
+        self.btnDeep = tk.Button(self,command= lambda : windows.Goto('FaceDetection_view'), text=' Register',relief='flat',compound=tk.LEFT,font=('mitr','20'),image = iconDeep)
         self.btnDeep.image = iconDeep
         self.btnDeep.bind("<Enter>", self.on_enter)
         self.btnDeep.bind("<Leave>", self.on_leave)

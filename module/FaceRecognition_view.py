@@ -6,6 +6,8 @@ from module.FaceRecognition_controller import FaceRecognition_controller
 from PIL import Image,ImageTk
 
 
+
+
 class Frame1(tk.Frame):
     def __init__(self, windows,container):
         tk.Frame.__init__(self,container)
@@ -134,6 +136,12 @@ class Frame2(tk.Frame):
         widget = self.myFrame.winfo_children()
         for i in widget :
             i.destroy()
+    
+    def notFound(self):
+        row =  tk.Frame(self.myFrame)
+        label = tk.Label(row,text="\t\t\tไม่พบข้อมูล",font=('kanit',12)).pack()
+        row.pack(fill='x',pady=5)
+
 
     def creatwidget(self,img,name,id,clas,date,time):
         current_image = Image.open(img)
@@ -157,6 +165,7 @@ class Frame2(tk.Frame):
 class FaceRecognition_view(tk.Frame):
 
     def __init__(self, windows,container):
+
         tk.Frame.__init__(self,container)
 
         self.columnconfigure(0,weight=1)

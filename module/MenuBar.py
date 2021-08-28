@@ -17,7 +17,7 @@ class Menubar(tk.Frame):
         homeIcon = homeIcon.resize((width,height), Image.ANTIALIAS)
         homeIcon =  ImageTk.PhotoImage(homeIcon)
 
-        detIcon = Image.open("./src/image/detection.png")
+        detIcon = Image.open("./src/image/register.png")
         detIcon = detIcon.resize((width,height), Image.ANTIALIAS)
         detIcon =  ImageTk.PhotoImage(detIcon)
 
@@ -44,7 +44,7 @@ class Menubar(tk.Frame):
         self.btn1 = tk.Button(self,text=' Home',image=homeIcon,command = lambda:  self.windows.Goto('startFrame'))
         self.btn1.image = homeIcon 
         
-        self.btn2 = tk.Button(self,text=' Face Detection',image=detIcon,command = lambda: self.windows.Goto('FaceDetection_view'))
+        self.btn2 = tk.Button(self,text=' Register',image=detIcon,command = lambda: self.windows.Goto('FaceDetection_view'))
         self.btn2.image = detIcon 
         
         self.btn3 = tk.Button(self,text=' Face Recognition',image=recIcon,command =  lambda: self.windows.Goto('FaceRecognition_view'))

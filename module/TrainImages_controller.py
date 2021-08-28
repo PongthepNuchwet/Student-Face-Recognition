@@ -1,8 +1,9 @@
 import os
 from PIL import Image
 from module.Staticmethod_controller import StaticMD 
-from module.GetDataInCSV import GetDataInCSV
+from module.DataStudent_controller import DataStudent_controller
 from tkinter import messagebox as ms
+import threading
 import cv2
 import numpy as np
 
@@ -18,16 +19,26 @@ class TrainImages_controller:
             ms.showwarning(title='คำเตือน', message='กรุณาถ่ายรูปก่อนบันทึก')
             return
         recognizer.save("src/dataset\Trainner.yml")
-        GetDataInCSV(Frame1)
         res = "บันทึกข้อมูลสำเร็จ"
-        Frame.labelStatus.configure(text=res,fg='#00ab11',font=('mitr',16))
-        Frame.btnTakeImages.configure(state='normal')
-        Frame.entryID.delete(0, 'end')
-        Frame.entryName.delete(0, 'end')
-        Frame.entryClass.delete(0, 'end')
-        Frame.text1.configure(fg='#ffbf00')
-        Frame.text2.configure(fg='#ffbf00')
-        Frame.text3.configure(fg='#ffbf00')
+        self.Frame = Frame
+        self.Frame.labelStatus.configure(text=res,fg='#00ab11',font=('mitr',16))
+        self.Frame.btnTakeImages.configure(state='normal')
+        self.Frame.entryID.delete(0, 'end')
+        self.Frame.entryName.delete(0, 'end')
+        self.Frame.entryClass.delete(0, 'end')
+        self.Frame.text1.configure(fg='#ffbf00')
+        self.Frame.text2.configure(fg='#ffbf00')
+        self.Frame.text3.configure(fg='#ffbf00')
+
+        self.controller = DataStudent_controller(Frame1)
+        self.controller.get_student()
+
+        threading.Timer(5.0,self.resetLabelStatus).start()
+    
+    def resetLabelStatus(self):
+        print("aaa")
+        self.Frame.labelStatus.configure(text='',fg='#00ab11',font=(1))
+
 
     def getImagesAndLabels(self,path = 'src/Train'):
 
@@ -38,7 +49,8 @@ class TrainImages_controller:
         for imagePath in imagePaths:
             pilImage = Image.open(imagePath).convert('L')
             imageNp = np.array(pilImage, 'uint8')
-            ID = int(os.path.split(imagePath)[-1].split(".")[1])
+            ID = int(os.path.split(imagePath)[-1].split(".")[0])
+            print(ID)
             faces.append(imageNp)
             Ids.append(ID)
 
