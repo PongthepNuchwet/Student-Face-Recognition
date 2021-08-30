@@ -12,9 +12,9 @@ class TrainImages_controller:
         StaticMD.check_haarcascadefile(windows)
         StaticMD.checkFolder('src/dataset/')
         recognizer = cv2.face_LBPHFaceRecognizer.create()
-        faces, ID = self.getImagesAndLabels()
+        faces, ids = self.getImagesAndLabels()
         try:  
-            recognizer.train(faces, np.array(ID))
+            recognizer.train(faces, np.array(ids))
         except:
             ms.showwarning(title='คำเตือน', message='กรุณาถ่ายรูปก่อนบันทึก')
             return
@@ -36,7 +36,6 @@ class TrainImages_controller:
         threading.Timer(5.0,self.resetLabelStatus).start()
     
     def resetLabelStatus(self):
-        print("aaa")
         self.Frame.labelStatus.configure(text='',fg='#00ab11',font=(1))
 
 
@@ -50,7 +49,6 @@ class TrainImages_controller:
             pilImage = Image.open(imagePath).convert('L')
             imageNp = np.array(pilImage, 'uint8')
             ID = int(os.path.split(imagePath)[-1].split(".")[0])
-            print(ID)
             faces.append(imageNp)
             Ids.append(ID)
 

@@ -1,6 +1,5 @@
 from PIL import Image, ImageTk
 from module.Staticmethod_controller import StaticMD 
-from module.FaceRecognition_model import FaceRecognition_model
 from module.LineNotify import LineNotify
 from module.mongo_attendant import Mongo_attendant
 from module.mongo_student import Mongo_student
@@ -9,7 +8,6 @@ import cv2
 import threading
 import os
 from os import path
-import pandas as pd
 import datetime
 from playsound import playsound
 
@@ -113,11 +111,12 @@ class FaceRecognition_controller:
 
                 data = self.find_student(str(studenID))
                 print(data,studenID)
-                id = data[0]['id']
-                name = data[0]['name']
-                clas = data[0]['classs']
+                if len(data) > 0 :
+                    id = data[0]['id']
+                    name = data[0]['name']
+                    clas = data[0]['classs']
 
-                threading.Thread(target=self.save_attendance,args=(id,name,clas,date,time,time2,frame)).start()
+                    threading.Thread(target=self.save_attendance,args=(id,name,clas,date,time,time2,frame)).start()
 
             else:
                 Id = 'Unknown'
