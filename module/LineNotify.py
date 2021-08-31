@@ -4,7 +4,7 @@ class LineNotify:
         super().__init__()
   
         self.url = 'https://notify-api.line.me/api/notify'
-        self.token = 'niPvTGJWhQeqJSv1lE7cdacDItH8IwIpOmILZ4r1Lqk' # Line Notify Token
+        self.token = 'niPvTGJWhQeqJSv1lE7cdacDItH8IwIpOmILZ4r1Lqk' 
         
         
 

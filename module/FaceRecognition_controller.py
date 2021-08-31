@@ -79,6 +79,7 @@ class FaceRecognition_controller:
                         'time': str(time),
                         'image':str(url)
                     }
+                self.LineNotify.Post(url,'มาถึงโรงเรียนแล้ว')
                 self.Mongo_attendant.add(data)
                 self.Attendance('1')
             
@@ -193,9 +194,3 @@ class FaceRecognition_controller:
                     playsound(self.sound)
         else:
             self.Frame.Frame2.notFound()
-
-
-
-
-
-
