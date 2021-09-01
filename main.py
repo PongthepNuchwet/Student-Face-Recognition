@@ -17,7 +17,7 @@ class App(tk.Tk):
         container = tk.Frame(self)
 
         self.Router = Router(self,container)
-        self.Goto('About_view')
+        self.Goto('startFrame')
 
         self.Menubar = Menubar(self,container)
         self.Menubar.pack(side='top',fill='x')
