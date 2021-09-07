@@ -1,6 +1,5 @@
-import pymongo
-
-myclient = pymongo.MongoClient("mongodb://192.168.67.56:27017/")
-mydb = myclient["test"]
-mycol = mydb["test"]
-mycol.insert_one({'id':28745})
+dict1 = {'1':55}
+dict2 = {}
+dict3 = dict1.copy()
+dict3.update(dict2)
+print(dict3)

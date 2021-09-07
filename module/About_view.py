@@ -22,7 +22,7 @@ class About_view(tk.Frame):
         self.FrameA = tk.Frame(self)
         self.FrameA.pack()
         self.FrameB = tk.Frame(self,bg=self.bg)
-        self.FrameB.pack(fill='x',expand=True,ipady=30)
+        self.FrameB.pack(fill='both',expand=True)
 
         self.FrameB.columnconfigure(0, weight=1)
         self.FrameB.columnconfigure(1, weight=1)
@@ -89,31 +89,52 @@ class About_view(tk.Frame):
         label88.pack(pady=10)
         label9_11 = tk.Label(labelFrame2, text="www.mixkit.co", font=self.H3,fg='white',bg=self.bg).pack()
 
+        Github = Image.open("./src/image/github.png")
+        Github = Github.resize((100,100), Image.ANTIALIAS)
+        Github =  ImageTk.PhotoImage(Github)
+
+        label12 = tk.Label(labelFrame2, text="Sound code", font=self.H2,fg=self.H2Color,bg=self.bg)
+        label12.pack()
+        label13 = tk.Label(labelFrame2,compound=tk.LEFT,justify='left',image=Github, text="  https://github.com/PongthepNuchwet/\n  Student-Face-Recognition", font=self.H3,fg='white',bg=self.bg)
+        label13.image = Github
+        label13.pack()
         
 
         labelFrame3 = tk.Frame(self.FrameB,bg=self.bg)
 
-        label10 = tk.Label(labelFrame3, text="Developed", font=self.H2,fg=self.H2Color,bg=self.bg)
+
+
+        label10 = tk.Label(labelFrame3, text="Developer", font=self.H2,fg=self.H2Color,bg=self.bg)
         label10.pack()
 
-        p1 = Image.open("./src/image/p1.png")
-        p1 = p1.resize((60,60), Image.ANTIALIAS)
+        p1 = Image.open("./src/image/p01.png")
+        p1 = p1.resize((100,100), Image.ANTIALIAS)
         p1 =  ImageTk.PhotoImage(p1)
 
-        self.Labelcalendar = tk.Label(labelFrame3,text=' Pongthep Nuchwet\n6310301004@cdti.ac.th',compound=tk.LEFT,image=p1)
-        self.Labelcalendar.configure(bg=self.bg,font=('kanit',16,'bold'),fg='white')
-        self.Labelcalendar.image = p1
-        # self.Labelcalendar.pack(side='right',ipadx=20,ipady=10)
+        p2 = Image.open("./src/image/p03.png")
+        p2 = p2.resize((100,100), Image.ANTIALIAS)
+        p2 =  ImageTk.PhotoImage(p2)
 
-        # label11_1 = tk.Label(labelFrame3, text="[ 1 ] Pongthep Nuchwet", font=self.H3,fg='white',bg=self.bg)
-        # label11_1.pack()
-        # label11_2 = tk.Label(labelFrame3, text="[ 2 ] Pongsagul Boonrub", font=self.H3,fg='white',bg=self.bg)
-        # label11_2.pack()
-        # label12_1 = tk.Label(labelFrame3, text="[ 3 ] Pakkamat Limjitsomboon", font=self.H3,fg='white',bg=self.bg)
-        # label12_1.pack()
+        p3 = Image.open("./src/image/p02.png")
+        p3 = p3.resize((100,100), Image.ANTIALIAS)
+        p3 =  ImageTk.PhotoImage(p3)
 
+        self.LabelP02 = tk.Label(labelFrame3,justify='left',text=' Pongsagul Boonrub\n 6310301003@cdti.ac.th',compound=tk.LEFT,image=p2)
+        self.LabelP02.configure(bg=self.bg,font=('kanit',16),fg='white')
+        self.LabelP02.image = p2
+        self.LabelP02.pack(ipadx=20,ipady=10)
 
+        self.LabelP01 = tk.Label(labelFrame3,justify='left',text=' Pongthep Nuchwet\n 6310301004@cdti.ac.th',compound=tk.LEFT,image=p1)
+        self.LabelP01.configure(bg=self.bg,font=('kanit',16),fg='white')
+        self.LabelP01.image = p1
+        self.LabelP01.pack(ipadx=20,ipady=10)
 
+        
+
+        self.LabelP03 = tk.Label(labelFrame3,justify='left',text=' Pakkamat Limjitsomboon\n 6310301036@cdti.ac.th',compound=tk.LEFT,image=p3)
+        self.LabelP03.configure(bg=self.bg,font=('kanit',16),fg='white')
+        self.LabelP03.image = p3
+        self.LabelP03.pack(ipadx=20,ipady=10)
 
         sFrame1.grid(column=1,row=3,sticky='ns')
         sFrame2.grid(column=3,row=3,sticky='ns')
