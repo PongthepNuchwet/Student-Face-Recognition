@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 from module.TrainImages_controller import TrainImages_controller
-from module.GetDataInCSV import GetDataInCSV
 from module.FaceRecognition_controller import FaceRecognition_controller
 from PIL import Image,ImageTk
 

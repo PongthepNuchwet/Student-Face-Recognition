@@ -11,8 +11,6 @@ class About_view(tk.Frame):
         tk.Frame.__init__(self,container)
 
 
-        
-
         self.H1 = ("mitr",28)
         self.H2 = ("kanit",20,'bold')
         self.H2Color = '#d62825'

@@ -3,6 +3,7 @@ class Mongo_student:
     def __init__(self) -> None:
     
         self.myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+        # self.myclient = pymongo.MongoClient("mongodb+srv://StudentFaceRecognition:EAkU2uLzxli4jekW@cluster0.jejm8.mongodb.net/FaceRecognition?retryWrites=true&w=majority")
         self.mydb = self.myclient["StudentFaceRecognition"]
         self.mycol = self.mydb["studentdetails"]
 
