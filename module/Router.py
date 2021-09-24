@@ -13,7 +13,6 @@ class Router:
             self.Frames[str(type(frame).__name__)] = frame
 
     def GoTo(self, frame):
-        print(f"[Debug] Go to {frame}")
         tmp = self.Frames[frame]
         tmp.grid(row=0, column=0, sticky="nsew")
         tmp.tkraise()
