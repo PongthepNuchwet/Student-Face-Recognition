@@ -1,5 +1,7 @@
 import os
 from tkinter import messagebox as ms
+
+
 class StaticMD:
 
     @staticmethod
@@ -9,7 +11,7 @@ class StaticMD:
         if not os.path.exists(dir):
             print(f"Create a {path} folder")
             os.mkdir(dir)
-    
+
     @staticmethod
     def check_haarcascadefile(window):
         print("[Debug] check_haarcascadefile")
@@ -17,5 +19,15 @@ class StaticMD:
         if exists:
             pass
         else:
-            ms.showerror(title='Error', message='ไม่พบไฟล์ haarcascade_frontalface_default.xml')
+            ms.showerror(
+                title='Error', message='ไม่พบไฟล์ haarcascade_frontalface_default.xml')
             window.destroy()
+
+    @staticmethod
+    def mongodb(): return "mongodb://localhost:27017/"
+
+    @staticmethod
+    def numberOfPhotoShoots(): return 50
+
+    @staticmethod
+    def lineToken(): return 'niPvTGJWhQeqJSv1lE7cdacDItH8IwIpOmILZ4r1Lqk'

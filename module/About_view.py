@@ -10,13 +10,14 @@ class About_view(tk.Frame):
     def __init__(self, windows,container):
         tk.Frame.__init__(self,container)
 
-
+        # Style
         self.H1 = ("mitr",28)
         self.H2 = ("kanit",20,'bold')
         self.H2Color = '#d62825'
         self.bg = '#323232'
         self.H3 = ("kanit",16)
-        
+
+        #  Layout 
         self.FrameA = tk.Frame(self)
         self.FrameA.pack()
         self.FrameB = tk.Frame(self,bg=self.bg)
@@ -28,26 +29,22 @@ class About_view(tk.Frame):
         self.FrameB.columnconfigure(3, weight=1)
         self.FrameB.columnconfigure(4, weight=1)
 
+        # Widgets
         label0 = tk.Label(self.FrameA, text="ABOUT", font=self.H1)
         label0.pack()
-
         label01 = tk.Label(self.FrameA,font=('kanit',14),text='Student face recognition เป็นระบบลงเวลามาโรงเรียนของนักเรียน\nและแจ้งเตือนไปยังโทรศัพท์มือถือของผู้ปกครอง ผ่านโปรแกรมไลน์ ( LINE Application )').pack()
         label02 = tk.Label(self.FrameB,font=self.H1,text='REFERENCE',fg='white',bg=self.bg).grid(columnspan=5, row=2,sticky='we')
 
+        #  Layout
         sFrame1 = Frame(self.FrameB)
         sFrame2 = Frame(self.FrameB)
-        
-
 
         self.separator1 = ttk.Separator(sFrame1, orient='vertical')
         self.separator2 = ttk.Separator(sFrame2, orient='vertical')
 
-        # tk.Label(sFrame2,text='5555').pack(fill='y',side='top')
-
         labelFrame1 = tk.Frame(self.FrameB,bg=self.bg)
         labelFrame1.columnconfigure(0, weight=1)
         labelFrame1.columnconfigure(1, weight=1)
-
 
         label1 = tk.Label(labelFrame1, text="Library", font=self.H2 ,fg=self.H2Color,bg=self.bg)
         label1.grid(columnspan=2, row=0, padx=5, pady=5)
@@ -75,8 +72,8 @@ class About_view(tk.Frame):
         label7_1.grid(column=0, row=6, padx=5, pady=5,sticky='w')
         
 
+        # Image
         labelFrame2 = tk.Frame(self.FrameB,bg=self.bg)
-
         label8 = tk.Label(labelFrame2, text="Image", font=self.H2,fg=self.H2Color,bg=self.bg)
         label8.pack()
         label9_1 = tk.Label(labelFrame2, text="www.flaticon.com", font=self.H3,fg='white',bg=self.bg)
@@ -98,9 +95,8 @@ class About_view(tk.Frame):
         label13.pack()
         
 
+
         labelFrame3 = tk.Frame(self.FrameB,bg=self.bg)
-
-
 
         label10 = tk.Label(labelFrame3, text="Developer", font=self.H2,fg=self.H2Color,bg=self.bg)
         label10.pack()
@@ -127,12 +123,11 @@ class About_view(tk.Frame):
         self.LabelP01.image = p1
         self.LabelP01.pack(ipadx=20,ipady=10)
 
-        
-
         self.LabelP03 = tk.Label(labelFrame3,justify='left',text=' Pakkamat Limjitsomboon\n 6310301036@cdti.ac.th',compound=tk.LEFT,image=p3)
         self.LabelP03.configure(bg=self.bg,font=('kanit',16),fg='white')
         self.LabelP03.image = p3
         self.LabelP03.pack(ipadx=20,ipady=10)
+
 
         sFrame1.grid(column=1,row=3,sticky='ns')
         sFrame2.grid(column=3,row=3,sticky='ns')
