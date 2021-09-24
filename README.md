@@ -42,8 +42,11 @@ def lineToken(): return 'ABCDTGJWhQeqJSv1lE7cdacDItH8IwIpOmILZ4r1Lqk'
 ### Step 4
 ทดสอบโดยการ Run ไฟล์ status.py
 > status.py
-status.py จะตรวจสอบว่า Libary ที่ใช้ในโปรแกรมถูกติดตั้งหมดหรือยัง และสามารถเชื่อมต่อกับ MongoDB ได้ใหม
-ถ้าขึ้นสีเขียวหมด เราก็สามารถรันโปรแกรมของเราได้
+
+##### status.py จะตรวจสอบว่า Libary ที่ใช้ในโปรแกรมถูกติดตั้งหมดหรือยัง และสามารถเชื่อมต่อกับ MongoDB ได้ใหม ถ้าขึ้นสีเขียวหมด เราก็สามารถรันโปรแกรมของเราได้
+
+## วิธีการเปิดโปรแกรม
+### Run ไฟล์ main.py เพื่อเปิดโปรแกรม
 
 ## Developer
 1. Pongthep Nuchwet 
