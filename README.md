@@ -3,7 +3,7 @@
 ### Student face recognition เป็นระบบลงเวลามาเรียนของนักเรียนและแจ้งเตือนไปยังโทรศัพท์มือถือของผู้ปกครอง ผ่านโปรแกรมไลน์ ( Line Application)
 > ระบบนี้พัฒนาด้วยภาษา Python และได้ใช้ Tkinter เป็น GUI
 # Contents
-- [วิธีติดตั้งโปรแกรม](https://github.com/PongthepNuchwet/Student-Face-Recognition#%E0%B8%A7%E0%B8%B4%E0%B8%98%E0%B8%B5%E0%B8%95%E0%B8%B4%E0%B8%94%E0%B8%95%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B9%82%E0%B8%9B%E0%B8%A3%E0%B9%81%E0%B8%81%E0%B8%A3%E0%B8%A1)
+- [วิธีติดตั้งโปรแกรม](#วิธีติดตั้งโปรแกรม)
 ## วิธีติดตั้งโปรแกรม
 ### Step 1
 ติดตั้ง Library ดังต่อไปนี้
